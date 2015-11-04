@@ -1,0 +1,50 @@
+server:
+#  softNofileLimit: 1000
+#  hardNofileLimit: 1000
+  applicationContextPath: /scooltivity
+  applicationConnectors:
+    - type: http
+      port: 8080
+#    - type: https
+#      port: 8443
+#      keyStorePath: C:\Program Files\Java\jdk1.8.0_25\jre\lib\security\cacerts
+#      keyStorePassword: changeit
+#      validateCerts: false
+# this requires the alpn-boot library on the JVM's boot classpath
+#    - type: spdy3
+#      port: 8445
+#      keyStorePath: example.keystore
+#      keyStorePassword: example
+#      validateCerts: false
+  adminConnectors:
+    - type: http
+      port: 8081
+#    - type: https
+#      port: 8444
+#      keyStorePath: C:\Program Files\Java\jdk1.8.0_25\jre\lib\security\cacerts
+#      keyStorePassword: changeit
+#      validateCerts: false
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    # Sets the level for 'com.example.app' to DEBUG.
+    com.example.app: DEBUG
+
+    org.hibernate.SQL: ALL
+
+  appenders:
+    - type: console
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: ./logs/application.log
+      archivedLogFilenamePattern: ./logs/application-%d{yyyy-MM-dd}.log
+      archivedFileCount: 7
+      timeZone: UTC

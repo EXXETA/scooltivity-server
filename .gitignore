@@ -1,0 +1,10 @@
+logs/
+.settings/
+dependency-reduced-pom.xml
+.classpath
+.project
+target/
+diy/
+misc/
+/target/
+.metadata/
