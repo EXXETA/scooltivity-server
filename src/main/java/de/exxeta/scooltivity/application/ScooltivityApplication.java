@@ -3,6 +3,15 @@ package de.exxeta.scooltivity.application;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
+import com.datastax.driver.mapping.MappingManager;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+
 import de.exxeta.scooltivity.account.rest.AccountResource;
 
 public class ScooltivityApplication extends Application<ScooltivityConfiguration> {
@@ -23,7 +32,31 @@ public class ScooltivityApplication extends Application<ScooltivityConfiguration
 
   @Override
   public void run(ScooltivityConfiguration configuration, Environment environment) throws Exception {
-    environment.jersey().register(new AccountResource());
+
+    /*
+     * Cassandra
+     */
+    Cluster cassandra = Cluster.builder().addContactPoint(configuration.getCassandraContactPoint())
+        .withPort(configuration.getCassandraPort()).build();
+    Session session = cassandra.connect(configuration.getCassandraKeyspace());
+    MappingManager mappingManager = new MappingManager(session);
+
+    /*
+     * Dependency Injection
+     */
+    Injector injector = Guice.createInjector(new Module[] { new AbstractModule() {
+
+      @Override
+      protected void configure() {
+        bind(ScooltivityConfiguration.class).toInstance(configuration);
+        bind(MappingManager.class).toInstance(mappingManager);
+      }
+    } });
+
+    /*
+     * Resources
+     */
+    environment.jersey().register(injector.getInstance(AccountResource.class));
   }
 
 }

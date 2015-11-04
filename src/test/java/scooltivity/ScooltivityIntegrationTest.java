@@ -1,7 +1,6 @@
 package scooltivity;
 
 import static org.junit.Assert.assertEquals;
-import io.dropwizard.testing.junit.DropwizardClientRule;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -15,7 +14,7 @@ import de.exxeta.scooltivity.account.rest.AccountResource;
 public class ScooltivityIntegrationTest {
 
   @ClassRule
-  public final static DropwizardClientRule scooltivityTestRule = new DropwizardClientRule(new AccountResource());
+  public final static ScooltivityTestRule scooltivityTestRule = new ScooltivityTestRule(new AccountResource());
 
   private Client client = ClientBuilder.newClient();
 
