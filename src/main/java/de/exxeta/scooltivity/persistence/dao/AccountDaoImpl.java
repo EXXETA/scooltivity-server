@@ -1,6 +1,7 @@
 package de.exxeta.scooltivity.persistence.dao;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,10 @@ public class AccountDaoImpl implements AccountDao {
     accountAccessor = mappingManager.createAccessor(AccountAccessor.class);
   }
 
+  public void setAccountDao(AccountDao accountDao) {
+
+  }
+
   @Override
   public void save(Account account) {
     accountMapper.save(account);
@@ -28,6 +33,11 @@ public class AccountDaoImpl implements AccountDao {
   @Override
   public List<Account> findAll() {
     return accountAccessor.findAll().all();
+  }
+
+  @Override
+  public Account getOne(String email, UUID schoolId) {
+    return accountMapper.get(email, schoolId);
   }
 
 }

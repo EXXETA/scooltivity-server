@@ -19,6 +19,9 @@ public class ScooltivityConfiguration extends Configuration {
   @NotEmpty
   private String cassandraKeyspace;
 
+  @NotEmpty
+  private String sharedSecretString;
+
   @JsonProperty
   public String getCassandraContactPoint() {
     return cassandraContactPoint;
@@ -47,6 +50,14 @@ public class ScooltivityConfiguration extends Configuration {
   @JsonProperty
   public void setCassandraKeyspace(String cassandraKeyspace) {
     this.cassandraKeyspace = cassandraKeyspace;
+  }
+
+  public String getSharedSecretString() {
+    return sharedSecretString;
+  }
+
+  public void setSharedSecretString(String sharedSecretString) {
+    this.sharedSecretString = sharedSecretString;
   }
 
 }

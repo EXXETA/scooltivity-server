@@ -3,11 +3,19 @@ package de.exxeta.scooltivity.persistence.model;
 import java.util.Date;
 import java.util.UUID;
 
-import com.datastax.driver.core.utils.UUIDs;
-import com.datastax.driver.mapping.annotations.Column;
-import com.datastax.driver.mapping.annotations.Table;
+import javax.validation.constraints.NotNull;
 
-@Table(keyspace = "scooltivity", name = "accounts", readConsistency = "QUORUM", writeConsistency = "QUORUM")
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.datastax.driver.core.utils.UUIDs;
+import com.datastax.driver.mapping.annotations.ClusteringColumn;
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Table(keyspace = "scooltivity", name = "account", readConsistency = "QUORUM", writeConsistency = "QUORUM")
 public class Account {
 
   public Account() {
@@ -15,27 +23,50 @@ public class Account {
   }
 
   @Column(name = "account_id")
+  @JsonIgnore
   private UUID accountId;
 
+  @PartitionKey
+  @NotEmpty
   private String email;
 
+  @NotEmpty
   @Column(name = "first_name")
   private String firstName;
 
+  @NotEmpty
   @Column(name = "last_name")
   private String lastName;
 
-  @Column(name = "school_name")
-  private String schoolName;
+  @NotEmpty
+  @ClusteringColumn
+  @Column(name = "school_id")
+  @JsonIgnore
+  private UUID schoolId;
 
-  @Column(name = "account_type")
+  @NotNull
+  @Column(name = "type")
   private AccountType type;
 
   private Date birthday;
 
+  @NotNull
   private String password;
 
+  @NotNull
+  @Column(name = "password_salt")
+  @JsonIgnore
+  private String passwordSalt;
+
+  @Column(name = "auth_token")
   private String token;
+
+  @Column(name = "registered_by")
+  @JsonIgnore
+  private UUID registeredBy;
+
+  @Transient
+  private String schoolName;
 
   public UUID getAccountId() {
     return accountId;
@@ -69,12 +100,12 @@ public class Account {
     this.lastName = lastName;
   }
 
-  public String getSchoolName() {
-    return schoolName;
+  public UUID getSchoolId() {
+    return schoolId;
   }
 
-  public void setSchoolName(String schoolName) {
-    this.schoolName = schoolName;
+  public void setSchoolId(UUID schoolId) {
+    this.schoolId = schoolId;
   }
 
   public AccountType getType() {
@@ -101,6 +132,14 @@ public class Account {
     this.password = password;
   }
 
+  public String getPasswordSalt() {
+    return passwordSalt;
+  }
+
+  public void setPasswordSalt(String passwordSalt) {
+    this.passwordSalt = passwordSalt;
+  }
+
   public String getToken() {
     return token;
   }
@@ -109,10 +148,27 @@ public class Account {
     this.token = token;
   }
 
+  public UUID getRegisteredBy() {
+    return registeredBy;
+  }
+
+  public void setRegisteredBy(UUID registeredBy) {
+    this.registeredBy = registeredBy;
+  }
+
+  public String getSchoolName() {
+    return schoolName;
+  }
+
+  public void setSchoolName(String schoolName) {
+    this.schoolName = schoolName;
+  }
+
   @Override
   public String toString() {
-    return "Account [accountId=" + accountId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", schoolName="
-        + schoolName + ", type=" + type + ", birthday=" + birthday + ", password=" + password + ", token=" + token + "]";
+    return "Account [accountId=" + accountId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", schoolId="
+        + schoolId + ", type=" + type + ", birthday=" + birthday + ", password=" + password + ", passwordSalt=" + passwordSalt + ", token="
+        + token + ", registeredBy=" + registeredBy + ", schoolName=" + schoolName + "]";
   }
 
 }

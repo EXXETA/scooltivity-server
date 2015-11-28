@@ -12,7 +12,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
-import de.exxeta.scooltivity.account.rest.AccountResource;
+import de.exxeta.scooltivity.account.resource.AccountResource;
+import de.exxeta.scooltivity.account.resource.ActivityResource;
+import de.exxeta.scooltivity.filter.AuthRequiredFeature;
 
 public class ScooltivityApplication extends Application<ScooltivityConfiguration> {
 
@@ -51,12 +53,19 @@ public class ScooltivityApplication extends Application<ScooltivityConfiguration
         bind(ScooltivityConfiguration.class).toInstance(configuration);
         bind(MappingManager.class).toInstance(mappingManager);
       }
-    } });
+    }, new ScooltivityModule() });
 
     /*
      * Resources
      */
     environment.jersey().register(injector.getInstance(AccountResource.class));
+    environment.jersey().register(injector.getInstance(ActivityResource.class));
+
+    /*
+     * Filters
+     */
+
+    environment.jersey().register(new AuthRequiredFeature(configuration));
   }
 
 }

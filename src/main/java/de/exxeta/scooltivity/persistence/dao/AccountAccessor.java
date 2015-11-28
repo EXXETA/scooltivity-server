@@ -9,7 +9,7 @@ import de.exxeta.scooltivity.persistence.model.Account;
 @Accessor
 public interface AccountAccessor {
 
-  @Query("SELECT * FROM scooltivity.accounts")
+  @Query("SELECT * FROM scooltivity.account")
   public Result<Account> findAll();
 
 }

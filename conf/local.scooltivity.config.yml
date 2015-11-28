@@ -1,3 +1,9 @@
+cassandraContactPoint: localhost
+cassandraPort: 9042
+cassandraKeyspace: scooltivity
+
+sharedSecretString: Chr83tccFKz9NSeCBG5RqCwbcrLt5KHU5LWAzMLKjU724cuQTLeZw4gqJDsn7LTm
+
 server:
 #  softNofileLimit: 1000
 #  hardNofileLimit: 1000

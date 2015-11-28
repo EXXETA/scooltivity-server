@@ -1,4 +1,4 @@
-package scooltivity;
+package de.exxeta.scooltivity;
 
 import io.dropwizard.testing.junit.DropwizardClientRule;
 
