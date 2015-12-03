@@ -5,31 +5,14 @@ cassandraKeyspace: scooltivity
 sharedSecretString: Chr83tccFKz9NSeCBG5RqCwbcrLt5KHU5LWAzMLKjU724cuQTLeZw4gqJDsn7LTm
 
 server:
-#  softNofileLimit: 1000
-#  hardNofileLimit: 1000
   applicationContextPath: /scooltivity
   applicationConnectors:
     - type: http
       port: 8080
-#    - type: https
-#      port: 8443
-#      keyStorePath: C:\Program Files\Java\jdk1.8.0_25\jre\lib\security\cacerts
-#      keyStorePassword: changeit
-#      validateCerts: false
-# this requires the alpn-boot library on the JVM's boot classpath
-#    - type: spdy3
-#      port: 8445
-#      keyStorePath: example.keystore
-#      keyStorePassword: example
-#      validateCerts: false
+
   adminConnectors:
     - type: http
       port: 8081
-#    - type: https
-#      port: 8444
-#      keyStorePath: C:\Program Files\Java\jdk1.8.0_25\jre\lib\security\cacerts
-#      keyStorePassword: changeit
-#      validateCerts: false
 
 # Logging settings.
 logging:

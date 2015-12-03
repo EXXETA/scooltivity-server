@@ -66,6 +66,11 @@ public class ScooltivityApplication extends Application<ScooltivityConfiguration
      */
 
     environment.jersey().register(new AuthRequiredFeature(configuration));
+
+    /*
+     * Health Checks
+     */
+    environment.healthChecks().register(CassandraHealthCheck.class.getSimpleName(), new CassandraHealthCheck(session));
   }
 
 }
